@@ -1,0 +1,89 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model MediaProfile {
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  profileId   String @unique @map("profile_id")
+  name        String
+  size        Int
+  base        String
+  path        String
+  url         String
+  contentType String @map("content_type")
+}
+
+model MediaWork {
+  id           String @id @default(auto()) @map("_id") @db.ObjectId
+  assignWordId String @unique @map("assign_work_id")
+  name         String
+  size         Int
+  base         String
+  path         String
+  url          String
+  contentType  String @map("content_type")
+}
+
+model MediaClass {
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  classId     String @unique @map("class_id")
+  name        String
+  size        Int
+  base        String
+  path        String
+  url         String
+  contentType String @map("content_type")
+}
+
+model MediaThumbnail {
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  blogId      String @unique @map("blog_id")
+  name        String
+  size        Int
+  base        String
+  path        String
+  url         String
+  contentType String @map("content_type")
+}
+
+model AssignWord {
+  id           String @id @default(auto()) @map("_id") @db.ObjectId
+  lessonWorkId String @unique @map("lesson_work_id")
+  userId       String @map("user_id")
+  work         Word?
+  point        Int
+}
+
+model Blog {
+  id        String @id @default(auto()) @map("_id") @db.ObjectId
+  classId   String @map("class_id")
+  ownerId   String @map("owner_id")
+  title     String
+  text      String
+  highlight String
+  slug      String
+  category  String
+  thumbnail String
+  stars     Int
+}
+
+model Comment {
+  id     String @id @default(auto()) @map("_id") @db.ObjectId
+  blogId String @map("blog_id")
+  text   String
+  userId String @map("user_id")
+}
+
+type Word {
+  link String[]
+  text String
+  file String[]
+}
